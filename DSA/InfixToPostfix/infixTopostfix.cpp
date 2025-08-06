@@ -12,8 +12,9 @@ int Pre(char c) {
         return 2;
     if (c == '+' || c == '-')
         return 1;
-    cout<<"Invalid Operator\n";
-    exit (-1);
+    // cout<<"Invalid Operator\n";
+    // exit (-1);
+    return -1;
 }
 void ItoP(string &exp) {
     stack<char> sc;
