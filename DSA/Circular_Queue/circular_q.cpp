@@ -25,7 +25,7 @@ public:
         if (isEmpty()) return 0;
 
         int val = arr[front];
-        if (front == rear) { // Only one element
+        if (front == rear) {
             front = rear = -1;
         } else {
             front = (front + 1) % _ms;

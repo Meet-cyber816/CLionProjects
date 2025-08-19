@@ -23,35 +23,62 @@ public:
         while (tmp->next != nullptr)
             tmp = tmp->next;
         tmp->next = nn;
+        size++;
     }
-    void add(const Poly &obj1, const Poly &obj2, Poly &res) {
+
+    int getSize(){return size;}
+
+    ele* getFirst(){ return this->first; }
+
+    void add( Poly &obj1,  Poly &obj2) {
+        ele *tmp1 = obj1.getFirst();
+        ele *tmp2 = obj2.getFirst();
         int i=0,j=0;
-        while (i<obj1.size && j<obj2.size) {
-            if (obj1[i].exp == obj2[j].exp) {
-                p3.Insert(obj1.exp, obj1[i].coeff + obj2[j].coeff);
-                //p3[k].exp = obj1[i].exp;
-                i++; j++;
+        while (i<obj1.getSize() && j<obj2.getSize()) {
+            if (tmp1->power == tmp2->power) {
+                Insert( tmp1->coef + tmp2->coef, tmp1->power);
+                i++; tmp1 = tmp1->next; j++; tmp2 = tmp2->next;
             }
             else {
-                if (obj1[i].exp > obj2[j].exp) {
-                    p3.push_back( {obj1[i].exp, obj1[i].coeff } );
-                    i++;
+                if (tmp1->power > tmp2->power) {
+                    Insert( tmp1->coef, tmp1->power  );
+                    i++; tmp1 = tmp1->next;
                 }
                 else {
-                    p3.push_back( {obj2[j].exp,  obj2[j].coeff} );
-                    // p3[k].exp = obj2[j].exp;
-                    j++;
+                    Insert( tmp2->coef,  tmp2->power );
+                    j++; tmp2 = tmp2->next;
                 }
             }
         }
-        while (i < obj1.size() ) {
-            p3.push_back({ obj1[i].exp, obj1[i].coeff });
-            //p3[k].exp = obj1[i].exp;
-            i++;
+        while (i < obj1.getSize() ) {
+            Insert( tmp1->coef, tmp1->power );
+            i++; tmp1 = tmp1 ->next;
         }
-        while (j < obj2.size() ) {
-            p3.push_back({ obj2[j].exp, obj2[j].coeff });
-            j++;
+        while (j < obj2.getSize() ) {
+            Insert( tmp2->coef, tmp2->power );
+            j++; tmp2 = tmp2 ->next;
         }
     }
+    void display() {
+        ele *tmp = this->first;
+        while ( tmp != nullptr) {
+            cout<<tmp->coef<<"x^"<<tmp->power<<" + ";
+            tmp = tmp -> next;
+        }
+        cout<<" 0 "<<" = "<<" 0 ";
+        cout<<endl<<endl;
+    }
 };
+
+int main() {
+    Poly p1,p2,p3;
+
+    for (int i=1;i<=5;i++)
+        p1.Insert(6-i,10-i);
+    for (int i=1;i<=6;i++)
+        p2.Insert(7-i,10-i);
+    p1.display();
+    p2.display();
+    p3.add(p1,p2);
+    p3.display();
+}
